@@ -40,3 +40,35 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task emulator {
+
+    doLast {
+        def params = ['-list-avds']
+        def sdkHome = System.env.ANDROID_SDK_ROOT
+        if (! sdkHome) {
+            println "ERROR: Missing environment variable: ANDROID_SDK_ROOT\n"
+            println "ANDROID_SDK_ROOT must be a path pointing to the SDK installation directory"
+            println "\$ echo \"export ANDROID_SDK_ROOT=C:\\Android\\Sdk\" >> ~/.bash_profile"
+            println "\$ source ~/.bash_profile"
+            return
+        }
+        if (project.hasProperty("avd")) {
+            params = ['-avd', String.format("\"%s\"", project.getProperty("avd")),
+                      '-dns-server', '8.8.8.8']
+        } else {
+            println "Usage: gradlew -q emulator -Pavd=<AVD name>"
+            println "AVD name:"
+        }
+        new ByteArrayOutputStream().withStream { os ->
+            exec {
+                args = params
+                workingDir = sdkHome + "/emulator"
+                executable = 'emulator'
+                standardOutput = os
+            }
+            def outputAsString = os.toString()
+            println(outputAsString)
+        }
+    }
+}
