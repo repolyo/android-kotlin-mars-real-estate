@@ -46,6 +46,9 @@ class OverviewViewModel : ViewModel() {
     private val viewJobModel = Job()
     private val coroutineScope = CoroutineScope(viewJobModel + Dispatchers.Main)
 
+    private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+    val navigateToSelectedProperty: LiveData<MarsProperty> get() = _navigateToSelectedProperty
+
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
      */
@@ -77,5 +80,13 @@ class OverviewViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewJobModel.cancel()
+    }
+
+    fun displayPropertyDetails(marsProperty: MarsProperty) {
+        _navigateToSelectedProperty.value = marsProperty
+    }
+
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedProperty.value = null
     }
 }
