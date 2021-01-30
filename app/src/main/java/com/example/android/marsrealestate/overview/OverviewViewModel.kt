@@ -34,8 +34,8 @@ class OverviewViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the status of the most recent request
     private val _status = MutableLiveData<String>()
-    private val _property = MutableLiveData<MarsProperty>()
-    val property: LiveData<MarsProperty> get() = _property
+    private val _properties = MutableLiveData<List<MarsProperty>>()
+    val properties: LiveData<List<MarsProperty>> get() = _properties
 
     // The external immutable LiveData for the request status String
     val response: LiveData<String>
@@ -62,7 +62,7 @@ class OverviewViewModel : ViewModel() {
                 _status.value = "Success: ${listResult.size} Mars properties retrieve"
 
                 if (!listResult.isEmpty()) {
-                    _property.value = listResult[0]
+                    _properties.value = listResult
                 }
             } catch (t: Throwable) {
                 _status.value = "Failure: " + t.message

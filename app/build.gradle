@@ -79,4 +79,7 @@ dependencies {
 
     // Glide dependency -- image caching/buffering lib
     implementation "com.github.bumptech.glide:glide:$version_glide"
+
+    // RecycleView dependency
+    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
 }
