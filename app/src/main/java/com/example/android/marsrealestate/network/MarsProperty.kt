@@ -21,12 +21,16 @@ import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
+enum class MarsApiFilter(val value: String) {
+    SHOW_RENT("rent"),
+    SHOW_BUY("buy"),
+    SHOW_SALE("sale"),
+    SHOW_ALL("all") }
+
 @Parcelize
 class MarsProperty(
         var id: String,
         var type: String,
         var price: Double,
         @Json(name = "img_src") var imgSrcUrl: String
-): Parcelable {
-    val isRental get() = type === "rent"
-}
+): Parcelable
